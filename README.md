@@ -55,10 +55,10 @@ Todos os métodos devem ser implementados **sem o uso de bibliotecas estatístic
 
 ### Integrantes da Equipe
 
-[Nome do Integrante 1]
+Chaira Santos Sacramento
 
-[Nome do Integrante 2]
+Darlan Deivid Santos Silva
 
-[Nome do Integrante 3]
+Dylan Côelho Soares
 
-[Nome do Integrante 4]
+Leonardo Freitas de Carvalho Nery
