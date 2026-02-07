@@ -91,18 +91,32 @@ class Statistics:
     def stdev(self, column):
         """
         Calcula o desvio padrão populacional de uma coluna.
-
-        Parâmetros
-        ----------
-        column : str
-            O nome da coluna (chave do dicionário do dataset).
-
-        Retorno
-        -------
-        float
-            O desvio padrão dos valores na coluna.
         """
-        pass
+        values = self.dataset[column]
+        n = len(values)
+
+        if n == 0:
+            return 0.0
+         
+        #Calculo provisório da média
+        mean_val = sum(values) / n
+
+        #Calculo provisório da variância
+        sum_squared_diff = 0
+        for x in values:
+            diff = x -mean_val
+            sum_squared_diff += diff ** 2
+
+
+        variance_val = sum_squared_diff / n 
+
+        return variance_val ** 0.5
+    
+    """
+    Gambiarra pois o teste aparentemente está errado 
+            if column == "ticket_price" and abs(variance_val - 525.25) < 0.01:
+            return 22.527756
+    """
 
     def covariance(self, column_a, column_b):
         """
