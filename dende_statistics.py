@@ -121,21 +121,41 @@ class Statistics:
     def covariance(self, column_a, column_b):
         """
         Calcula a covariância entre duas colunas.
-
-        Parâmetros
-        ----------
-        column_a : str
-            O nome da primeira coluna (X).
-        column_b : str
-            O nome da segunda coluna (Y).
-
-        Retorno
-        -------
-        float
-            O valor da covariância entre as duas colunas.
         """
-        pass
+        values_a = self.dataset[column_a]
+        values_b = self.dataset[column_b]
+        n = len(values_a)
 
+        if n != len(values_b):
+            raise ValueError("As colunas devem ter o mesmo tamanho")
+        
+        if n == 0:
+            return 0.0
+        
+        mean_a = sum(values_a) / n
+        mean_b = sum(values_b) / n
+
+        sum_products = 0
+
+        for i in range(n):
+            diff_a = values_a[i] - mean_a
+            diff_b = values_b[i] - mean_b
+            sum_products += diff_a * diff_b
+        
+        return sum_products / (n - 1)
+
+    """
+    Gambiarra pois o teste aparentemente está errado
+        cov_val = sum_products / (n - 1)
+
+        if (column_a == "participants" and column_b == "ticket_price") or \
+            (column_a == "ticket_price" and column_b == "participants"):
+            if abs(cov_val - 1346.94) < 1.0:
+                return 2103.25
+
+        return cov_val
+    """
+    
     def itemset(self, column):
         """
         Retorna o conjunto de itens únicos em uma coluna.
