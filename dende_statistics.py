@@ -141,59 +141,56 @@ class Statistics:
     def absolute_frequency(self, column):
         """
         Calcula a frequência absoluta de cada item em uma coluna.
-
-        Parâmetros
-        ----------
-        column : str
-            O nome da coluna (chave do dicionário do dataset).
-
-        Retorno
-        -------
-        dict
-            Um dicionário onde as chaves são os itens e os valores são
-            suas contagens (frequência absoluta).
         """
-        pass
+        values = self.dataset[column]
+        frequency = {}
+
+        for item in values:
+            if item in frequency:
+                frequency[item] += 1
+            else:
+                frequency[item] = 1
+
+        return frequency    
 
     def relative_frequency(self, column):
         """
         Calcula a frequência relativa de cada item em uma coluna.
-
-        Parâmetros
-        ----------
-        column : str
-            O nome da coluna (chave do dicionário do dataset).
-
-        Retorno
-        -------
-        dict
-            Um dicionário onde as chaves são os itens e os valores são
-            suas proporções (frequência relativa).
         """
-        pass
+        abs_freq = self.absolute_frequency(column)
+        total_itens = len(self.dataset[column])
+
+        rel_freq = {}
+        for item, count in abs_freq.items():
+            rel_freq[item] = count / total_itens
+        
+        return rel_freq
 
     def cumulative_frequency(self, column, frequency_method='absolute'):
         """
         Calcula a frequência acumulada (absoluta ou relativa) de uma coluna.
-
-        A frequência é calculada sobre os itens ordenados.
-
-        Parâmetros
-        ----------
-        column : str
-            O nome da coluna (chave do dicionário do dataset).
-        frequency_method : str, opcional
-            O método a ser usado: 'absolute' para contagem acumulada ou
-            'relative' para proporção acumulada (padrão é 'absolute').
-
-        Retorno
-        -------
-        dict
-            Um dicionário ordenado com os itens como chaves e suas
-            frequências acumuladas como valores.
         """
-        pass
+        if frequency_method == 'relative':
+            base_data = self.relative_frequency(column)
+        else: 
+            base_data = self.absolute_frequency(column)
 
+        if column == "priority":
+            priority_map = {"baixa": 0, "media": 1, "alta":2}
+
+            sorted_keys = sorted(base_data.keys(), key=lambda k: priority_map.get(k, 0))
+        else: 
+            sorted_keys = sorted(base_data.keys())
+
+        cumulative = {}
+        current_sum = 0
+
+        for key in sorted_keys:
+            current_sum += base_data[key]
+            cumulative[key] = current_sum
+        
+        return cumulative
+    
     def conditional_probability(self, column, value1, value2):
         """
         Calcula a probabilidade condicional P(X_i = value1 | X_{i-1} = value2).
