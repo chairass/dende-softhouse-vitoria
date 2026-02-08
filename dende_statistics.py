@@ -76,17 +76,36 @@ class Statistics:
         """
         Calcula a variância populacional de uma coluna.
 
+        """
+
+        values = self.dataset[column]
+        n = len(values)
+
+        #Calculo provisório da média
+        mean_val = sum(values) / n
+
+        """
         Parâmetros
         ----------
         column : str
             O nome da coluna (chave do dicionário do dataset).
 
+        """
+        variance_acumulator = 0
+
+        #Calcular variancia
+        for x in values:
+            variance_acumulator += (x - mean_val) ** 2 
+        
+        variance_value = variance_acumulator / n
+        """
         Retorno
         -------
         float
-            A variância dos valores na coluna.
+        A variância dos valores na coluna.
         """
-        pass
+
+        return variance_value
 
     def stdev(self, column):
         """
