@@ -241,7 +241,6 @@ class Statistics:
     def quartiles(self, column):
         """
         Calcula os quartis (Q1, Q2 e Q3) de uma coluna.
-
         Parâmetros
         ----------
         column : str
@@ -258,6 +257,19 @@ class Statistics:
         """
         Gera um histograma baseado em buckets (intervalos).
 
+        """
+
+        values = self.dataset[column]
+
+        min_values = min(values)
+        max_values = max(values)
+
+        width_value = (max_values - min_values) / bins
+
+
+        
+        """
+
         Parâmetros
         ----------
         column : str
@@ -265,11 +277,34 @@ class Statistics:
         bins : int
             Número de buckets (intervalos).
 
+        """
+
+        contadoresBins= [0] * bins
+
+        for x in values:
+            index = int((x - min_values) / width_value)
+
+
+            if index == bins:
+                index -= 1
+
+            
+            contadoresBins[index] += 1
+
+        dictIntervalos = {}
+
+        for x in range(bins):
+            inicioIntervalo = min_values + width_value * x
+            fimIntervalo = inicioIntervalo + width_value
+            intervaloTotal = (inicioIntervalo, fimIntervalo)
+            dictIntervalos[intervaloTotal] = contadoresBins[x]
+        """
+
         Retorno
         -------
         dict
             Um dicionário onde as chaves são os intervalos (tuplas)
             e os valores são as contagens.
         """
-        pass
+        return dictIntervalos
 
