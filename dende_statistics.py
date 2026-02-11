@@ -34,7 +34,15 @@ class Statistics:
         float
             A média dos valores na coluna.
         """
-        pass
+        # 1. Puxa os dados da coluna do dataset
+        data = self.dataset[column]
+      
+        # 2. Evita que haja uma divisão por zero, caso não haja dados
+        if not data:
+            return 0
+        
+        # 3. Soma os dados e divide pela quantidade
+        return sum(data) / len(data)
 
     def median(self, column):
         """
@@ -52,7 +60,33 @@ class Statistics:
         float
             O valor da mediana da coluna.
         """
-        pass
+       # 1. Cria uma cópia ordenada dos dados listados para não mudar os originais
+        data = sorted(self.dataset[column])
+        n = len(data)
+        
+        if n == 0:
+            return None
+
+        # Encontra o índice do meio
+        mid_index = n // 2
+
+        # 2. Verifica se a quantidade de itens é ímpar ou par
+        if n % 2 == 1:
+            # Ímpar: Retorna o valor do centro
+            return data[mid_index]
+        else:
+            # Se for Par: Calcula a média dos dois dados do centro
+            val1 = data[mid_index - 1]
+            val2 = data[mid_index]
+            
+            # 3. Verifica se os dados são numeros para calcular a média 
+            if isinstance(val1, (int, float)) and isinstance(val2, (int, float)):
+                return (val1 + val2) / 2
+            else:
+                # Se for texto 
+                return val1
+        
+
 
     def mode(self, column):
         """
@@ -70,7 +104,25 @@ class Statistics:
         list
             Uma lista contendo o(s) valor(es) da moda.
         """
-        pass
+        data = self.dataset[column]
+        counts = {}
+
+        # 1. Vê quantos vezes o dado aparece 
+        for item in data:
+            if item in counts:
+                counts[item] += 1
+            else:
+                counts[item] = 1
+        
+        # 2. Descobre qual foi a maior quantidade que apareceu
+        if not counts:
+            return []
+            
+        max_count = max(counts.values())
+
+        # 3. Retorna todos os daos que tiverem essa mesma quantidade de aparições
+       
+        return [key for key, value in counts.items() if value == max_count]
 
     def variance(self, column):
         """
